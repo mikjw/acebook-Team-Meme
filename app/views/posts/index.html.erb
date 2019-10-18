@@ -35,7 +35,9 @@
       <div class="container"> 
       
         <!-- card mb-4 class below came from bootstrap -->                
-        <div class="card mb-4 box-shadow">               
+        <div class="card mb-4 box-shadow">      
+        <div class="container">  
+                
           <p><% if @post_creator.profile_picture.attached? %>
                 <%= image_tag @post_creator.profile_picture.variant(resize: '100x100!'), :style => "border-radius: 50%" %>
 
@@ -50,11 +52,9 @@
               </br>Posted on: <%= post.created_at %>
               by <%= @post_creator.firstname + " " + @post_creator.surname %>
           </p>
-        </div>
-      </div>
 
-      <div class="container">                              
-        <div class="card mb-4 box-shadow">  
+
+
           <span class='parent-likes'>
             <span class="like_count" <% post.id %> >
               <%= post.get_likes.size %> &#128077
@@ -72,8 +72,7 @@
               <% end %>
             </a>
           </span>
-        </div>
-      </div>
+
 
       <p><%= link_to 'Show', post_path(post),
         method: :get %>
@@ -84,6 +83,10 @@
           method: :delete %>
         <% end %>
       </p>
+
+         </div>
+      </div>
+      </div>
 
       <div class="container">                              
         <div class="card mb-4 box-shadow">  
@@ -105,8 +108,7 @@
               <%= form.submit %>
               </p>
             <% end %>
-        </div>
-      </div>
+     
 
         <% end %>
 
