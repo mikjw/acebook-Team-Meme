@@ -1,21 +1,11 @@
-
-
- <!-- Need below doctype etc -->
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
- <!-- Need put our own css file below this bootstrap link above ^^ -->
     <link rel="stylesheet" href="posts-index.css">
   </head>
 
-
-
-
-<!-- <div class ="container"> -->
 <div class="container-fluid gedf-wrapper">
   <div class="row">
     <div class="col-md-3">
@@ -79,33 +69,25 @@
       </div>
 
       <div class="card-body">
-
-
-          <h5 class="card-title"><%= simple_format post.message %></h5>
-
-
-
+        <h5 class="card-title"><%= simple_format post.message %></h5>
       </div>
-
-
       <div class='container'>
+        <span class='parent-likes'>
+          <span class="like_count" <% post.id %> >
+            <%= post.get_likes.size %> &#128077
+          </span>
 
-      <span class='parent-likes'>
-        <span class="like_count" <% post.id %> >
-          <%= post.get_likes.size %> &#128077
-        </span>
-
-        <a>
-          <% if current_user.liked? post %>
-          <div> <%= link_to like_post_path(post, 'toggle'), class: "liked-button",
-            method: :put, remote: :true do %> Liked </div>
-            <% end %>
-            <% else %>
+          <a>
+            <% if current_user.liked? post %>
+            <div> <%= link_to like_post_path(post, 'toggle'), class: "liked-button",
+              method: :put, remote: :true do %> Liked </div>
+              <% end %>
+              <% else %>
             <div> <%= link_to like_post_path(post, 'toggle'), class: "like-button",
-              method: :put, remote: :true do %> Like </div>
+                method: :put, remote: :true do %> Like </div>
+                <% end %>
               <% end %>
-              <% end %>
-            </a>
+          </a>
           </span>
 
 
@@ -120,59 +102,44 @@
             <% end %>
           </p>
 
+          <h4>Commments:</h4>
+          <% post.comments.each do |comment| %>
+          <% @comment_creator = User.find_by(id: comment.user_id) %>
+          <div class="row">
+            <div class="col-sm-1">
+              <div class="thumbnail">
+              <% if @comment_creator.profile_picture.attached? %>
+              <%= image_tag @comment_creator.profile_picture.variant(resize: '30x30'), :style => "border-radius: 50%" %>
+              <% else %>
+              <%= image_tag('totally_normal_human_dude.jpg', size: '30x30', style: "border-radius: 50%") %>
+              <% end %>
+            </div><!-- /thumbnail -->
+          </div><!-- /col-sm-1 -->
+        </div>
+        <div class="col-sm-5">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong><%= @comment_creator.firstname + ' ' +  @comment_creator.surname %> <%= comment.created_at %>
+              </strong>
+            </div>
+            <div class="panel-body">
+              commented: <%= comment.body %>
+            </div><!-- /panel-body -->
+          </div><!-- /panel panel-default -->
+        </div><!-- /col-sm-5 -->
+      <% end %>
 
-
-<h4>Commments:</h4>
-         <% post.comments.each do |comment| %>
-         <% @comment_creator = User.find_by(id: comment.user_id) %>
-         <div class="row">
-
-
-<div class="col-sm-1">
-<div class="thumbnail">
-
-
-                <% if @comment_creator.profile_picture.attached? %>
-                <%= image_tag @comment_creator.profile_picture.variant(resize: '30x30'), :style => "border-radius: 50%" %>
-                <% else %>
-                <%= image_tag('totally_normal_human_dude.jpg', size: '30x30', style: "border-radius: 50%") %>
-                <% end %>
-</div><!-- /thumbnail -->
-</div><!-- /col-sm-1 -->
+      <h5>Add a comment:</h5>
+      <%= form_with(model: [ post, post.comments.build ], local: true) do
+          |form| %>
+        <p>
+          <%= form.text_area :body %>
+        </p>
+        <p>
+          <%= form.submit %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+<% end %>
 </div>
-<div class="col-sm-5">
-<div class="panel panel-default">
-<div class="panel-heading">
-<strong><%= @comment_creator.firstname + ' ' +  @comment_creator.surname %> <%= comment.created_at %>
-</strong>
-</div>
-<div class="panel-body">
- commented: <%= comment.body %>
-</div><!-- /panel-body -->
-</div><!-- /panel panel-default -->
-</div><!-- /col-sm-5 -->
-          <% end %>
-
- <h5>Add a comment:</h5>
-                  <%= form_with(model: [ post, post.comments.build ], local: true) do
-                  |form| %>
-                  <p>
-                    <%= form.text_area :body %>
-                  </p>
-                  <p>
-                    <%= form.submit %>
-                  </p>
-
-
-            <% end %>
-
-          </div>
-          </div>
-
- 
-          <% end %>
-          </div>
-
-
-<!-- </div> -->
-
