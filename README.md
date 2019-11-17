@@ -71,7 +71,7 @@ config.active_storage.service = :local
 
 ## Our approach
 
-<em>See detailed project notes in this repo's Wiki!</em>
+<em>See detailed project notes in the original repo's [Wiki!](https://github.com/etelish/acebook-Team-Meme/wiki)</em>
 
 - We worked in 2-day sprints, with daily morning stand-ups
 - We paired on the major part of the code, with some individual workload depending on requirements for the day
